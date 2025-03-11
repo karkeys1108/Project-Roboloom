@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Background */
+/* Global Background */
+body {
+    background: linear-gradient(to bottom, #ADB8DA, #EDE8F5);
+    background-image: url('../assets/grid.png'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: repeat; 
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+/*scoll beahviour*/
+html {
+    scroll-behavior: smooth;
+}
+.slick-slide {
+    padding-inline: 5px !important;
+  }
+  .slick-list {
+    /* / min-height: 320px !important; / */
+    width: 90vw !important;
+  }
+  
+  .slick-dots li.slick-active button:before {
+    font-size: 20px !important;
+    display: flex !important;
+    justify-content: center !important;
+    border: none;
+  
+    color: #dda45c !important;
+  }
+  .slick-dots li button:before {
+    font-size: 20px !important;
+    display: flex;
+    justify-content: center !important;
+    border: none;
+    color: white !important;
+    border: 1px solid #dda45c;
+    border-radius: 100%;
+  }
+  
+  .slick-arrow.slick-next:before {
+    content: "";
+  }
+  
+  .slick-arrow.slick-prev:before {
+    content: "";
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .slick-list {
+      width: 90vw !important;
+    }
+  }
+  
+  @media only screen and (min-width: 1280px) {
+    .slick-list {
+      max-width: 1230px !important;
+    }
+  }
+  
+   .dream-agency-bussiness .slick-dots li.slick-active button:before {
+      color: #38b9f8 !important;
+  }
+  
+   .dream-agency-bussiness .slick-list {
+      margin-bottom: 10px !important;
+    }
+  
+  .dream-agency-work .slick-dots li.slick-active button:before {
+      color: #fb8f6e !important;
+    }
+  
+  .dream-agency-work .slick-list {
+      margin-bottom: 10px !important;
+    }
+  
+  
