@@ -13,6 +13,7 @@
     "@fontsource/quicksand": "^5.1.1",
     "animejs": "^3.2.2",
     "axios": "^1.8.2",
+    "dotenv": "^16.4.7",
     "framer-motion": "^12.4.7",
     "gsap": "^3.12.7",
     "lottie-react": "^2.4.1",

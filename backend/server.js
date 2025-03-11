@@ -1,29 +1,40 @@
-// server.js
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
 
-// Initialize Express app
+
 const app = express();
 
 // Middleware
-app.use(cors()); // Enable CORS for frontend-backend communication
-app.use(bodyParser.json()); // Parse JSON request bodies
+app.use(bodyParser.json()); 
 
-// MongoDB Connection
-const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/roboloom';
-mongoose.connect(mongoURI, {
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Change this to your deployed frontend URL
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
+    allowedHeaders: "Content-Type, Authorization",
+  })
+);
+
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(200);
 });
+
+// ✅ MongoDB Connection
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/roboloom";
+mongoose
+  .connect(mongoURI, {})
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
-});
 
-// Define MongoDB Schema
+// ✅ Define MongoDB Schema
 const registrationSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   dob: { type: Date, required: true },
@@ -40,11 +51,16 @@ const registrationSchema = new mongoose.Schema({
   learningMode: { type: String, required: true },
 });
 
-const Registration = mongoose.model('Registration', registrationSchema);
+const Registration = mongoose.model("Registration", registrationSchema);
 
-
-app.post('/submit', async (req, res) => {
+// ✅ POST Route: Handle Form Submission
+app.post("/submit", async (req, res) => {
   try {
+    // ✅ Set CORS Headers
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
     const {
       fullName,
       dob,
@@ -61,21 +77,9 @@ app.post('/submit', async (req, res) => {
       learningMode,
     } = req.body;
 
-    if (
-      !fullName ||
-      !dob ||
-      !gender ||
-      !email ||
-      !phone ||
-      !area ||
-      !city ||
-      !state ||
-      !postCode ||
-      !grade ||
-      !experience ||
-      !learningMode
-    ) {
-      return res.status(400).json({ message: 'All fields are required' });
+    // ✅ Check for missing fields
+    if (!fullName || !dob || !gender || !email || !phone || !area || !city || !state || !postCode || !grade || !experience || !learningMode) {
+      return res.status(400).json({ message: "❌ All fields are required" });
     }
 
     const registration = new Registration({
@@ -94,19 +98,19 @@ app.post('/submit', async (req, res) => {
       learningMode,
     });
 
-    // Save to MongoDB
+    // ✅ Save to MongoDB
     await registration.save();
 
-    // Send success response
-    res.status(201).json({ message: 'Registration successful', data: registration });
+    // ✅ Send success response
+    res.status(201).json({ message: "✅ Registration successful", data: registration });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ message: 'An error occurred. Please try again.' });
+    console.error("❌ Error:", error);
+    res.status(500).json({ message: "❌ An error occurred. Please try again." });
   }
 });
 
-// Start the server
+// ✅ Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });

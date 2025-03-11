@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -71,11 +72,12 @@ const RegistrationForm = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/submit", {
+      const response = await fetch(`${BACKEND_URL}/submit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        mode:"cors",
         body: JSON.stringify(formData),
       });
 
