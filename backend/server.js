@@ -10,13 +10,7 @@ const app = express();
 // Middleware
 app.use(bodyParser.json()); 
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Change this to your deployed frontend URL
-    methods: "GET, POST, PUT, DELETE, OPTIONS",
-    allowedHeaders: "Content-Type, Authorization",
-  })
-);
+app.use(cors());
 
 app.options("*", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
